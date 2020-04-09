@@ -5,6 +5,7 @@ using System.Text;
 internal class Data<T>
 {
     public static readonly int size = 64;
+    public bool IsValid = true;
     public int currentSize => end - start + 1;
     // indicis of first and last ALREADY OCCUPIED places in array
     internal int start, end;
@@ -97,8 +98,14 @@ internal class Data<T>
     }
     public T[] GetStoredValues()
     {
-        T[] res = new T[currentSize];
-        Array.Copy(arr, start, res, 0, currentSize);
-        return res;
+        if ( IsValid ){
+            T[] res = new T[currentSize];
+            Array.Copy(arr, start, res, 0, currentSize);
+            return res;
+        }
+        else
+        {
+            throw new InvalidOperationException("This is invalid Data Node.");
+        }
     }
 }

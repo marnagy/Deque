@@ -5,60 +5,57 @@ using System.Text;
 
 public class Deque<T> : IList<T>
 {
-    bool inverted = false;
-    Dictionary<int, Data<T>> map = new Dictionary<int, Data<T>>();
-    int front, end;
-    public uint size {get; private set;} = 0;
-
-    public Deque()
+    bool inverted;
+    private DequeObj<T> obj;
+    public Deque( bool inverted = false)
     {
-
+        this.inverted = inverted;
     }
-    public T this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-    public int Count { get {
-            int sum = 0;
-            foreach( var Value in map.Values)
-            {
-                sum += Value.currentSize;
-            }
-            return sum;
-    } }
+    private Deque( Deque<T> deque, bool inverted)
+    {
+        this.obj = deque.obj;
+        this.inverted = inverted;
+    }
 
-    public bool IsReadOnly => false;
+    public T this[int index] { get => obj[index]; set => obj[index] = value; }
+
+    public int Count => obj.Count;
+
+    public bool IsReadOnly => obj.IsReadOnly;
+
+    public static Deque<T> Invert(Deque<T> deque)
+    {
+        return new Deque<T>(deque, !deque.inverted);
+    }
 
     public void Add(T item)
     {
-        if (size != 0)
+        if (inverted)
         {
-            var dataNode = map[end];
-            if (dataNode.end == Data<T>.size - 1)
-            {
-                map.Add(++end, new Data<T>(item, inverted));
-            }
-            else
-            {
-                dataNode.
-            }
+            obj.AddFront(item);
         }
         else
         {
-            var node = new Data<T>(item, inverted);
-            front = 0;
-            end = 0;
-            map.Add(0, node);
-            size++;
+            obj.AddEnd(item);
         }
     }
 
     public void Clear()
     {
-        throw new NotImplementedException();
+        obj.Clear();
     }
 
     public bool Contains(T item)
     {
-        throw new NotImplementedException();
+        foreach (T item2 in obj)
+        {
+            if (item2.Equals(item))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void CopyTo(T[] array, int arrayIndex)
@@ -68,31 +65,37 @@ public class Deque<T> : IList<T>
 
     public IEnumerator<T> GetEnumerator()
     {
-        throw new NotImplementedException();
+        return obj.GetEnumerator(inverted);
     }
 
     public int IndexOf(T item)
     {
-        throw new NotImplementedException();
+        return obj.IndexOf(item);
     }
 
     public void Insert(int index, T item)
     {
-        throw new NotImplementedException();
+        obj.Insert(index, item);
     }
 
     public bool Remove(T item)
     {
-        throw new NotImplementedException();
+        return obj.Remove(item);
     }
 
     public void RemoveAt(int index)
     {
-        throw new NotImplementedException();
+        obj.RemoveAt(index);
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        throw new NotImplementedException();
+        return obj.GetEnumerator(inverted);
     }
+}
+
+public static class DequeTest {
+	public static IList<T> GetReverseView<T>(Deque<T> d) {
+		return Deque<T>.Invert(d);
+	}
 }
