@@ -6,6 +6,7 @@ using System.Text;
 public class Deque<T> : IList<T>
 {
     Node front, end;
+    public uint size {get; private set;} = 0;
 
     public Deque()
     {
