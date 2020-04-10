@@ -3,99 +3,102 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-public class Deque<T> : IList<T>
+public class Deque<T> : IDeque<T>
 {
-    bool inverted;
-    private DequeObj<T> obj;
-    public Deque( bool inverted = false)
-    {
-        this.inverted = inverted;
-    }
+	public T this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-    private Deque( Deque<T> deque, bool inverted)
-    {
-        this.obj = deque.obj;
-        this.inverted = inverted;
-    }
+	public int Capacity => throw new NotImplementedException();
 
-    public T this[int index] { get => obj[index]; set => obj[index] = value; }
+	public bool IsEmpty => throw new NotImplementedException();
 
-    public int Count => obj.Count;
+	public IDeque<T> Reversed => throw new NotImplementedException();
 
-    public bool IsReadOnly => obj.IsReadOnly;
+	public int Count => throw new NotImplementedException();
 
-    public static Deque<T> Invert(Deque<T> deque)
-    {
-        return new Deque<T>(deque, !deque.inverted);
-    }
+	public bool IsReadOnly => throw new NotImplementedException();
 
-    public void Add(T item)
-    {
-        if (inverted)
-        {
-            obj.AddFront(item);
-        }
-        else
-        {
-            obj.AddEnd(item);
-        }
-    }
+	public void Add(T item)
+	{
+		throw new NotImplementedException();
+	}
 
-    public void Clear()
-    {
-        obj.Clear();
-    }
+	public void AddFirst(T item)
+	{
+		throw new NotImplementedException();
+	}
 
-    public bool Contains(T item)
-    {
-        foreach (T item2 in obj)
-        {
-            if (item2.Equals(item))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+	public void AddLast(T item)
+	{
+		throw new NotImplementedException();
+	}
 
-    public void CopyTo(T[] array, int arrayIndex)
-    {
-        throw new NotImplementedException();
-    }
+	public void Clear()
+	{
+		throw new NotImplementedException();
+	}
 
-    public IEnumerator<T> GetEnumerator()
-    {
-        return obj.GetEnumerator(inverted);
-    }
+	public bool Contains(T item)
+	{
+		throw new NotImplementedException();
+	}
 
-    public int IndexOf(T item)
-    {
-        return obj.IndexOf(item);
-    }
+	public void CopyTo(T[] array, int arrayIndex)
+	{
+		throw new NotImplementedException();
+	}
 
-    public void Insert(int index, T item)
-    {
-        obj.Insert(index, item);
-    }
+	public IEnumerator<T> GetEnumerator()
+	{
+		throw new NotImplementedException();
+	}
 
-    public bool Remove(T item)
-    {
-        return obj.Remove(item);
-    }
+	public int IndexOf(T item)
+	{
+		throw new NotImplementedException();
+	}
 
-    public void RemoveAt(int index)
-    {
-        obj.RemoveAt(index);
-    }
+	public void Insert(int index, T item)
+	{
+		throw new NotImplementedException();
+	}
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return obj.GetEnumerator(inverted);
-    }
-}
+	public T PeekFirst()
+	{
+		throw new NotImplementedException();
+	}
 
-public static class DequeTest {
-	public static IList<T> GetReverseView<T>(Deque<T> d) {
-		return Deque<T>.Invert(d);
+	public T PeekLast()
+	{
+		throw new NotImplementedException();
+	}
+
+	public T PopFirst()
+	{
+		throw new NotImplementedException();
+	}
+
+	public T PopLast()
+	{
+		throw new NotImplementedException();
+	}
+
+	public bool Remove(T item)
+	{
+		throw new NotImplementedException();
+	}
+
+	public void RemoveAt(int index)
+	{
+		throw new NotImplementedException();
+	}
+
+	public void Reverse()
+	{
+		throw new NotImplementedException();
+	}
+
+	IEnumerator IEnumerable.GetEnumerator()
+	{
+		throw new NotImplementedException();
 	}
 }

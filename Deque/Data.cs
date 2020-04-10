@@ -6,26 +6,48 @@ internal class Data<T>
 {
     public static readonly int size = 64;
     public bool IsValid = true;
-    public int currentSize => end - start + 1;
+    public int currentSize { 
+        get {
+            if (start == -1 || end == -1)
+            {
+                return 0;
+            }
+            else
+            {
+                return end - start + 1;
+            }
+        }
+    }
     // indicis of first and last ALREADY OCCUPIED places in array
-    internal int start, end;
+    internal int start = -1, end = -1;
     // initialized with nulls inside
     internal T[] arr = new T[size];
 
-    public Data(T item, bool inverted)
+    public Data(T item, bool indexOnStart = false, bool indexOnEnd = false)
     {
-        int index;
-        if (inverted)
+        if (indexOnStart && indexOnEnd)
         {
-            index = size - 1;
+            throw new ArgumentException("Cannot be on start and on end at the same time.");
+        }
+
+        if (indexOnStart)
+        {
+            this.start = 0;
         }
         else
         {
-            index = 0;
+            if (indexOnEnd)
+            {
+                this.start = size - 1;
+            }
+            else
+            {
+                this.start = size / 2;
+            }
         }
-        start = index;
-        end = index;
-        arr[index] = item;
+
+        this.end = start;
+        arr[this.start] = item;
     }
 
     public T this[int index] {  get {
