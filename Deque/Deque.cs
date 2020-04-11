@@ -81,7 +81,18 @@ public class Deque<T> : IDeque<T>
 
 	public void AddFirst(T item)
 	{
-		throw new NotImplementedException();
+		if (map[frontBlock].start == 0)
+		{
+			if (frontBlock == 0)
+			{
+				MakeLarger();
+			}
+			map[--frontBlock] = new Data<T>(item,indexOnEnd: true);
+		}
+		else
+		{
+			map[frontBlock].Add(item, true);
+		}
 		size++;
 		version++;
 	}
@@ -111,7 +122,6 @@ public class Deque<T> : IDeque<T>
 		frontBlock = frontBlock + map.Length / 2;
 		endBlock = endBlock + map.Length / 2;
 		map = newMap;
-		
 	}
 
 	public void Clear()
@@ -230,16 +240,17 @@ public class Deque<T> : IDeque<T>
 	public void Insert(int index, T item)
 	{
 		throw new NotImplementedException();
+		version++;
 	}
 
 	public T PeekFirst()
 	{
-		throw new NotImplementedException();
+		return this[0];
 	}
 
 	public T PeekLast()
 	{
-		throw new NotImplementedException();
+		return this[size - 1];
 	}
 
 	public T PopFirst()
@@ -254,17 +265,66 @@ public class Deque<T> : IDeque<T>
 
 	public bool Remove(T item)
 	{
-		throw new NotImplementedException();
+		bool res = false;
+		int i;
+		for ( i = 0; i < this.size; i++)
+		{
+			if (this[i].Equals(item))
+			{
+				res = true;
+				break;
+			}
+		}
+		if (res)
+		{
+			Move(from: i, to: size - 1);
+			size--;
+			version++;
+		}
+		return res;
+	}
+
+	private void Move(int from, int to)
+	{
+		if (from == to) throw new ArgumentException();
+
+		T temp;
+		if (from < to)
+		{
+			// this ensures item is on "to" index
+			for (int i = from; i < to; i++)
+			{
+				temp = this[i];
+				this[i] = this[i+1];
+				this[i+1] = temp;
+			}
+		}
+		else // from > to
+		{
+			for (int i = from; i > to; i--)
+			{
+				temp = this[i];
+				this[i] = this[i-1];
+				this[i-1] = temp;
+			}
+		}
 	}
 
 	public void RemoveAt(int index)
 	{
-		throw new NotImplementedException();
+		if (!CheckIndex(index))
+		{
+			throw new IndexOutOfRangeException();
+		}
+
+		Move(from: index, to: size - 1);
+		size--;
+		version++;
 	}
 
 	public void Reverse()
 	{
-		inversed = !inversed;
+		throw new NotImplementedException();
 	}
 
 	IEnumerator IEnumerable.GetEnumerator()
