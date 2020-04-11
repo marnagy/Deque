@@ -8,9 +8,24 @@ class Testing
 	{
 		Deque<int> deque = new Deque<int>();
 
-		for (int i = 0; i < 10_000; i++)
+		int number = 1000;
+
+		for (int i = 0; i < number; i++)
 		{
 			deque.Add(i+1);
+		}
+
+		foreach (int value in deque)
+		{
+			Console.WriteLine("Item -> " + value);
+		}
+
+		Console.WriteLine("Pause");
+		Console.ReadLine();
+
+		for (int i = 0; i < number; i++)
+		{
+			deque[i] = -(i+1);
 		}
 
 		foreach (int value in deque)

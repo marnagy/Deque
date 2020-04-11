@@ -17,25 +17,40 @@ public class Deque<T> : IDeque<T>
 
 	public T this[int index] { 
 		get {
-			if (!CheckIndex(index))
-			{
-				throw new IndexOutOfRangeException();
-			}
-			int firstSize = map[frontBlock].currentSize;
-			if (index < firstSize)
-			{
-				return map[frontBlock].arr[ map[frontBlock].start + index];
-			}
-			else
-			{
-				index = index - firstSize;
-				int outsideIndex = index / Data<T>.size;
-				int insideIndex = index % Data<T>.size;
-				return map[frontBlock + 1 + outsideIndex].arr[insideIndex];
-			}
+				if (!CheckIndex(index))
+				{
+					throw new IndexOutOfRangeException();
+				}
+				int firstSize = map[frontBlock].currentSize;
+				if (index < firstSize)
+				{
+					return map[frontBlock].arr[ map[frontBlock].start + index];
+				}
+				else
+				{
+					index = index - firstSize;
+					int outsideIndex = index / Data<T>.size;
+					int insideIndex = index % Data<T>.size;
+					return map[frontBlock + 1 + outsideIndex].arr[insideIndex];
+				}
 			}
 		set {
-			// TO DO
+				if (!CheckIndex(index))
+				{
+					throw new IndexOutOfRangeException();
+				}
+				int firstSize = map[frontBlock].currentSize;
+				if (index < firstSize)
+				{
+					map[frontBlock].arr[ map[frontBlock].start + index] = value;
+				}
+				else
+				{
+					index = index - firstSize;
+					int outsideIndex = index / Data<T>.size;
+					int insideIndex = index % Data<T>.size;
+					map[frontBlock + 1 + outsideIndex].arr[insideIndex] = value;
+				}
 			} }
 
 	private bool CheckIndex(int index)
