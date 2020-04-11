@@ -56,12 +56,17 @@ class ReversedView<T> : IList<T>
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		public bool MoveNext()
 		{
-			return index-- >= 0;
+			if (index > 0)
+			{
+				index--;
+				return true;
+			}
+			return false;
 		}
 
 		public void Reset()

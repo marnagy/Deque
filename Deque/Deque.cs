@@ -71,6 +71,7 @@ public class Deque<T> : IDeque<T>
 			map[0] = new Data<T>(item);
 			frontBlock = 0;
 			endBlock = 0;
+			size++;
 		}
 		else
 		{

@@ -6,7 +6,7 @@ public interface IDeque<T> : IList<T>
 {
 	int Capacity { get; }
 	bool IsEmpty { get; }
-	IDeque<T> Reversed { get; }
+	IList<T> Reversed { get; }
 
 	public void AddFirst(T item);
 	public void AddLast(T item);

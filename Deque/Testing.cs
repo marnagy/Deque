@@ -8,7 +8,7 @@ class Testing
 	{
 		Deque<int> deque = new Deque<int>();
 
-		int number = 1000;
+		int number = 10;
 
 		for (int i = 0; i < number; i++)
 		{
@@ -16,6 +16,13 @@ class Testing
 		}
 
 		foreach (int value in deque)
+		{
+			Console.WriteLine("Item -> " + value);
+		}
+
+		Console.WriteLine("Reversed");
+
+		foreach (int value in deque.Reversed)
 		{
 			Console.WriteLine("Item -> " + value);
 		}
