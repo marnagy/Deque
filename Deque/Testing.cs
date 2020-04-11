@@ -24,25 +24,16 @@ class Testing
 
 		deque.Reversed.Add(0);
 
+		deque.Reversed.RemoveAt(1);
+
 		foreach (int value in deque.Reversed)
 		{
 			Console.WriteLine("Item -> " + value);
 		}
 
+		//deque.Remove(3);
+
 		Console.WriteLine("Regular");
-
-		foreach (int value in deque)
-		{
-			Console.WriteLine("Item -> " + value);
-		}
-
-		Console.WriteLine("Pause");
-		Console.ReadLine();
-
-		for (int i = 0; i < number; i++)
-		{
-			deque[i] = -(i+1);
-		}
 
 		foreach (int value in deque)
 		{

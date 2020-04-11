@@ -103,7 +103,18 @@ class ReversedView<T> : IList<T>
 
 	public void RemoveAt(int index)
 	{
-		deque.RemoveAt(deque.Count - 1 - index);
+		if (!CheckIndex(deque.Count - 1 - index))
+		{
+			throw new IndexOutOfRangeException();
+		}
+
+		deque.Move(from: deque.Count - 1 - index, to: 0);
+		deque.PopFirst();
+	}
+
+	private bool CheckIndex(int index)
+	{
+		return !(index < 0 || index >= deque.Count);
 	}
 
 	IEnumerator IEnumerable.GetEnumerator()

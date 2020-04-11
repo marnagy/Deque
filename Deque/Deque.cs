@@ -255,12 +255,38 @@ public class Deque<T> : IDeque<T>
 
 	public T PopFirst()
 	{
-		throw new NotImplementedException();
+		T item;
+		int innerIndex = map[frontBlock].start;
+		item = map[frontBlock].arr[innerIndex];
+		if (innerIndex == Data<T>.size)
+		{
+			frontBlock++;
+		}
+		else
+		{
+			map[frontBlock].Remove(inverted: false);
+		}
+		size--;
+		version++;
+		return item;
 	}
 
 	public T PopLast()
 	{
-		throw new NotImplementedException();
+		T item;
+		int innerIndex = map[endBlock].end;
+		item = map[endBlock].arr[innerIndex];
+		if (innerIndex == 0)
+		{
+			endBlock--;
+		}
+		else
+		{
+			map[endBlock].Remove(inverted: true);
+		}
+		size--;
+		version++;
+		return item;
 	}
 
 	public bool Remove(T item)
@@ -278,15 +304,17 @@ public class Deque<T> : IDeque<T>
 		if (res)
 		{
 			Move(from: i, to: size - 1);
-			size--;
-			version++;
+			PopLast();
 		}
 		return res;
 	}
 
-	private void Move(int from, int to)
+	public void Move(int from, int to)
 	{
-		if (from == to) throw new ArgumentException();
+		if (!CheckIndex(from) || !CheckIndex(to))
+		{
+			throw new IndexOutOfRangeException();
+		}
 
 		T temp;
 		if (from < to)
@@ -299,7 +327,7 @@ public class Deque<T> : IDeque<T>
 				this[i+1] = temp;
 			}
 		}
-		else // from > to
+		else if (from > to)
 		{
 			for (int i = from; i > to; i--)
 			{
@@ -318,8 +346,7 @@ public class Deque<T> : IDeque<T>
 		}
 
 		Move(from: index, to: size - 1);
-		size--;
-		version++;
+		PopLast();
 	}
 
 	public void Reverse()

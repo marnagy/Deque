@@ -15,4 +15,5 @@ public interface IDeque<T> : IList<T>
 	public T PopFirst();
 	public T PopLast();
 	public void Reverse();
+	public void Move(int from, int to);
 }
