@@ -50,6 +50,11 @@ internal class Data<T>
         arr[this.start] = item;
     }
 
+    public T Get(int index, bool inversed)
+    {
+        // ############################################
+    }
+
     public T this[int index] {  get {
             if (index < 0 || index > end - start + 1)
             {
