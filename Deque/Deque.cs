@@ -5,7 +5,6 @@ using System.Text;
 
 public class Deque<T> : IDeque<T>
 {
-	bool inversed = false;
 	int frontBlock = -1, endBlock = -1;
 	Data<T>[] map = new Data<T>[1];
 	private int size = 0;
@@ -71,7 +70,8 @@ public class Deque<T> : IDeque<T>
 			map[0] = new Data<T>(item);
 			frontBlock = 0;
 			endBlock = 0;
-			size++;
+			size = 1;
+			version++;
 		}
 		else
 		{
@@ -130,6 +130,7 @@ public class Deque<T> : IDeque<T>
 		endBlock = -1;
 		map = new Data<T>[1];
 		size = 0;
+		version++;
 	}
 
 	public bool Contains(T item)
@@ -167,16 +168,8 @@ public class Deque<T> : IDeque<T>
 		{
 			this.deque = deque;
 			this.version = deque.version;
-			if (!deque.inversed)
-			{
-				stepConst = 1;
-				currentIndex = -1;
-			}
-			else
-			{
-				stepConst = -1;
-				currentIndex = deque.size;
-			}
+			stepConst = 1;
+			currentIndex = -1;
 		}
 
 		public T Current { 
@@ -189,7 +182,7 @@ public class Deque<T> : IDeque<T>
 				} 
 			}
 
-		object IEnumerator.Current => throw new NotImplementedException();
+		object IEnumerator.Current => Current;
 
 		public void Dispose()
 		{
@@ -202,24 +195,17 @@ public class Deque<T> : IDeque<T>
 			{
 				throw new InvalidOperationException("Collection has been modified.");
 			}
-			if (currentIndex == deque.size - 1)
+			if (currentIndex < deque.size - 1)
 			{
-				return false;
+				currentIndex++;
+				return true;
 			}
-			currentIndex++;
-			return true;
+			return false;
 		}
 
 		public void Reset()
 		{
-			if (!deque.inversed)
-			{
-				currentIndex = -1;
-			}
-			else
-			{
-				currentIndex = deque.size;
-			}
+			currentIndex = -1;
 		}
 	}
 
@@ -228,8 +214,7 @@ public class Deque<T> : IDeque<T>
 		Deque<T> list = this;
 		for (int i = 0; i < list.Count; i++)
 		{
-			T thing = list[i];
-			if ( thing.Equals(item) )
+			if ( list[i].Equals(item) )
 			{
 				return i;
 			}
