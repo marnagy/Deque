@@ -9,11 +9,7 @@ public class Deque<T> : IDeque<T>
 	int frontBlock = -1, endBlock = -1;
 	Data<T>[] map = new Data<T>[1];
 	private int size = 0;
-
-	public Deque()
-	{
-
-	}
+	private int version = 0;
 
 	public T this[int index] { 
 		get {
@@ -62,7 +58,7 @@ public class Deque<T> : IDeque<T>
 
 	public bool IsEmpty => size == 0;
 
-	public IDeque<T> Reversed => throw new NotImplementedException();
+	public IList<T> Reversed => new ReversedView<T>(this);
 
 	public int Count => size;
 
@@ -80,12 +76,13 @@ public class Deque<T> : IDeque<T>
 		{
 			AddLast(item);
 		}
-		size++;
 	}
 
 	public void AddFirst(T item)
 	{
 		throw new NotImplementedException();
+		size++;
+		version++;
 	}
 
 	public void AddLast(T item)
@@ -102,6 +99,8 @@ public class Deque<T> : IDeque<T>
 		{
 			map[endBlock].Add(item, false);
 		}
+		size++;
+		version++;
 	}
 
 	private void MakeLarger()
@@ -152,9 +151,11 @@ public class Deque<T> : IDeque<T>
 		int stepConst;
 		int currentIndex;
 		Deque<T> deque;
+		int version;
 		internal MyEnumerator(Deque<T> deque)
 		{
 			this.deque = deque;
+			this.version = deque.version;
 			if (!deque.inversed)
 			{
 				stepConst = 1;
@@ -167,7 +168,15 @@ public class Deque<T> : IDeque<T>
 			}
 		}
 
-		public T Current => deque[currentIndex];
+		public T Current { 
+			get {
+				if (deque.version != this.version)
+				{
+					throw new InvalidOperationException("Collection has been modified.");
+				}
+				return deque[currentIndex];
+				} 
+			}
 
 		object IEnumerator.Current => throw new NotImplementedException();
 
@@ -178,6 +187,10 @@ public class Deque<T> : IDeque<T>
 
 		public bool MoveNext()
 		{
+			if (deque.version != this.version)
+			{
+				throw new InvalidOperationException("Collection has been modified.");
+			}
 			if (currentIndex == deque.size - 1)
 			{
 				return false;
@@ -201,14 +214,14 @@ public class Deque<T> : IDeque<T>
 
 	public int IndexOf(T item)
 	{
-		int index = 0;
-		foreach (T thing in this)
+		Deque<T> list = this;
+		for (int i = 0; i < list.Count; i++)
 		{
+			T thing = list[i];
 			if ( thing.Equals(item) )
 			{
-				return index;
+				return i;
 			}
-			index++;
 		}
 		return -1;
 	}
