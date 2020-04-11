@@ -14,10 +14,6 @@ public class Deque<T> : IDeque<T>
 	{
 
 	}
-	private Deque(bool inversed = false, Data<T>[] map = null, int size = 0)
-	{
-
-	}
 
 	public T this[int index] { 
 		get {
@@ -28,12 +24,19 @@ public class Deque<T> : IDeque<T>
 			int firstSize = map[frontBlock].currentSize;
 			if (index < firstSize)
 			{
-				return map[frontBlock].arr[index];
+				return map[frontBlock].arr[ map[frontBlock].start + index];
 			}
-			};
+			else
+			{
+				index = index - firstSize;
+				int outsideIndex = index / Data<T>.size;
+				int insideIndex = index % Data<T>.size;
+				return map[frontBlock + 1 + outsideIndex].arr[insideIndex];
+			}
+			}
 		set {
-
-			}; }
+			// TO DO
+			} }
 
 	private bool CheckIndex(int index)
 	{
@@ -50,11 +53,13 @@ public class Deque<T> : IDeque<T>
 
 	public bool IsReadOnly => false;
 
-	void ICollection<T>.Add(T item)
+	public void Add(T item)
 	{
 		if (size == 0)
 		{
 			map[0] = new Data<T>(item);
+			frontBlock = 0;
+			endBlock = 0;
 		}
 		else
 		{
@@ -70,7 +75,28 @@ public class Deque<T> : IDeque<T>
 
 	public void AddLast(T item)
 	{
-		throw new NotImplementedException();
+		if (map[endBlock].end == Data<T>.size - 1)
+		{
+			if (endBlock == map.Length - 1)
+			{
+				MakeLarger();
+			}
+			map[++endBlock] = new Data<T>(item,indexOnStart: true);
+		}
+		else
+		{
+			map[endBlock].Add(item, false);
+		}
+	}
+
+	private void MakeLarger()
+	{
+		Data<T>[] newMap = new Data<T>[map.Length * 2];
+		Array.Copy(map, 0, newMap, map.Length / 2, map.Length);
+		frontBlock = frontBlock + map.Length / 2;
+		endBlock = endBlock + map.Length / 2;
+		map = newMap;
+		
 	}
 
 	public void Clear()
@@ -132,7 +158,7 @@ public class Deque<T> : IDeque<T>
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		public bool MoveNext()

@@ -52,7 +52,14 @@ internal class Data<T>
 
     public T Get(int index, bool inversed)
     {
-        // ############################################
+        if (!inversed)
+        {
+            return arr[index];
+        }
+        else
+        {
+            return arr[currentSize - 1 - index];
+        }
     }
 
     public T this[int index] {  get {
