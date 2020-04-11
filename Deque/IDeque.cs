@@ -8,12 +8,12 @@ public interface IDeque<T> : IList<T>
 	bool IsEmpty { get; }
 	IList<T> Reversed { get; }
 
-	public void AddFirst(T item);
-	public void AddLast(T item);
-	public T PeekFirst();
-	public T PeekLast();
-	public T PopFirst();
-	public T PopLast();
-	public void Reverse();
-	public void Move(int from, int to);
+	void AddFirst(T item);
+	void AddLast(T item);
+	T PeekFirst();
+	T PeekLast();
+	T PopFirst();
+	T PopLast();
+	void Reverse();
+	void Move(int from, int to);
 }

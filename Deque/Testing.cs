@@ -15,25 +15,39 @@ class Testing
 			deque.Add(i+1);
 		}
 
+		var rev = deque.Reversed;
+
+		for (int i = 0; i < number; i++)
+		{
+			rev.Add(-(i+1));
+		}
+
 		foreach (int value in deque)
 		{
 			Console.WriteLine("Item -> " + value);
 		}
 
-		Console.WriteLine("Reversed");
+		deque.Insert( 1, number*10);
+		deque.Reversed.Insert( 1, -number*10);
+		Console.WriteLine("Insert");
 
-		deque.Reversed.Add(0);
-
-		deque.Reversed.RemoveAt(1);
-
-		foreach (int value in deque.Reversed)
+		foreach (int value in deque)
 		{
 			Console.WriteLine("Item -> " + value);
 		}
 
-		//deque.Remove(3);
+		deque.Clear();
+		Console.WriteLine("Cleared");
 
-		Console.WriteLine("Regular");
+		foreach (int value in deque)
+		{
+			Console.WriteLine("Item -> " + value);
+		}
+
+		for (int i = 0; i < number; i++)
+		{
+			deque.Add(i+1);
+		}
 
 		foreach (int value in deque)
 		{
