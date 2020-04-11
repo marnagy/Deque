@@ -239,8 +239,12 @@ public class Deque<T> : IDeque<T>
 
 	public void Insert(int index, T item)
 	{
-		throw new NotImplementedException();
-		version++;
+		if (!CheckIndex(index))
+		{
+			throw new IndexOutOfRangeException();
+		}
+		AddLast(item);
+		Move(from: size - 1, to: index);
 	}
 
 	public T PeekFirst()
