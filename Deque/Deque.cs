@@ -224,10 +224,11 @@ public class Deque<T> : IDeque<T>
 
 	public void Insert(int index, T item)
 	{
-		if (!CheckIndex(index))
+		if (!CheckIndex(index) && index != size)
 		{
 			throw new IndexOutOfRangeException();
 		}
+
 		if (index < size / 2)
 		{
 			AddFirst(item);
@@ -235,7 +236,7 @@ public class Deque<T> : IDeque<T>
 		}
 		else
 		{
-			AddLast(item);
+			Add(item);
 			Move(from: size - 1, to: index);
 		}
 	}

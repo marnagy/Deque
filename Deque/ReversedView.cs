@@ -100,16 +100,39 @@ class ReversedView<T> : IList<T>
 
 	public void Insert(int index, T item)
 	{
-		if (!CheckIndex(deque.Count - 1 - index))
+		if (!CheckIndex(deque.Count - 1 - index) && index != deque.Count)
 		{
 			throw new IndexOutOfRangeException();
 		}
-		deque.Insert(deque.Count - 1 - index, item);
+
+		if (index != deque.Count)
+		{
+			deque.Insert(deque.Count - 1 - index, item);
+		}
+		else
+		{
+			deque.AddFirst(item);
+		}
+		
 	}
 
 	public bool Remove(T item)
 	{
-		return deque.Remove(item);
+		bool res = false;
+		int i;
+		for (i = deque.Count - 1; i >= 0; i--)
+		{
+			if (deque[i].Equals(item))
+			{
+				res = true;
+				break;
+			}
+		}
+		if (res)
+		{
+			deque.RemoveAt(i);
+		}
+		return res;
 	}
 
 	public void RemoveAt(int index)
