@@ -165,57 +165,14 @@ public class Deque<T> : IDeque<T>
 
 	public IEnumerator<T> GetEnumerator()
 	{
-		 return new MyEnumerator<T>(this);
-	}
-
-	private class MyEnumerator<T> : IEnumerator<T>
-	{
-		int stepConst;
-		int currentIndex;
-		Deque<T> deque;
-		int version;
-		internal MyEnumerator(Deque<T> deque)
+		int myVersion = this.version;
+		for (int i = 0; i < this.Count; i++)
 		{
-			this.deque = deque;
-			this.version = deque.version;
-			stepConst = 1;
-			currentIndex = -1;
-		}
-
-		public T Current { 
-			get {
-				if (deque.version != this.version)
-				{
-					throw new InvalidOperationException();
-				}
-				return deque[currentIndex];
-				} 
-			}
-
-		object IEnumerator.Current => Current;
-
-		public void Dispose()
-		{
-			//throw new NotImplementedException();
-		}
-
-		public bool MoveNext()
-		{
-			if (deque.version != this.version)
+			if (myVersion != this.version)
 			{
 				throw new InvalidOperationException();
 			}
-			if (currentIndex < deque.size - 1)
-			{
-				currentIndex++;
-				return true;
-			}
-			return false;
-		}
-
-		public void Reset()
-		{
-			currentIndex = -1;
+			yield return this[i];
 		}
 	}
 

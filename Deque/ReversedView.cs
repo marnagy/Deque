@@ -45,55 +45,16 @@ class ReversedView<T> : IList<T>
 
 	public IEnumerator<T> GetEnumerator()
 	{
-		return new ReversedEnumerator<T>(this.deque);
-	}
-
-	private class ReversedEnumerator<T> : IEnumerator<T>
-	{
-		readonly Deque<T> deque;
-		int index;
-		int version;
-		internal ReversedEnumerator(Deque<T> deque)
+		int myVersion = deque.version;
+		for (int i = 0; i < deque.Count; i++)
 		{
-			this.deque = deque;
-			this.index = deque.Count;
-			this.version = deque.version;
-		}
-		public T Current { get {
-			if (this.version != deque.version)
+			if (myVersion != deque.version)
 			{
 				throw new InvalidOperationException();
 			}
-			return deque[index];
-		} }
-
-		object IEnumerator.Current => throw new NotImplementedException();
-
-		public void Dispose()
-		{
-			//throw new NotImplementedException();
-		}
-
-		public bool MoveNext()
-		{
-			if (this.version != deque.version)
-			{
-				throw new InvalidOperationException();
-			}
-			if (index > 0)
-			{
-				index--;
-				return true;
-			}
-			return false;
-		}
-
-		public void Reset()
-		{
-			throw new NotImplementedException();
+			yield return this[i];
 		}
 	}
-
 
 	public int IndexOf(T item)
 	{
