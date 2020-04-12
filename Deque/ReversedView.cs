@@ -119,18 +119,18 @@ class ReversedView<T> : IList<T>
 
 	public void Insert(int index, T item)
 	{
-		if (!CheckIndex(deque.Count - 1 - index) && index != deque.Count)
+		if (!CheckIndex(deque.Count - index) && index != 0)
 		{
 			throw new IndexOutOfRangeException();
 		}
 
-		if (index != deque.Count)
+		if (index != 0)
 		{
-			deque.Insert(deque.Count - 1 - index, item);
+			deque.Insert(deque.Count - index, item);
 		}
 		else
 		{
-			deque.Insert(0, item);
+			deque.AddLast( item);
 		}
 		
 	}

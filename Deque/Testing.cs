@@ -8,21 +8,23 @@ class Testing
 	{
 		Deque<int> deque = new Deque<int>();
 
-		int number = 50;
+		int number = 5;
 		for (int k = 0; k < number; k++)
 		{
-			deque.Add( k);
+			deque.Reversed.Add( k);
 		}
 
-		foreach (int item in deque)
+		foreach (int item in deque.Reversed)
 		{
 			Console.WriteLine("Item -> " + item);
 
 		}
 
-		deque.Reversed.Insert(50, -1);
+		deque.Reversed.Insert(0, 100);
 
-		foreach (int item in deque)
+		Console.WriteLine("Inserted 100 to index 2");
+
+		foreach (int item in deque.Reversed)
 		{
 			Console.WriteLine("Item -> " + item);
 
