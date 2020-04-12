@@ -23,6 +23,7 @@ class Testing
 		foreach (int item in deque)
 		{
 			Console.WriteLine("Item -> " + item);
+			deque.Add(2);
 		}
 	}
 }

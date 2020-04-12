@@ -228,17 +228,8 @@ public class Deque<T> : IDeque<T>
 		{
 			throw new IndexOutOfRangeException();
 		}
-		if (index < size / 2)
-		{
-			AddFirst(item);
-			Move(from: 0, to: index);
-		}
-		else
-		{
-			AddLast(item);
-			Move(from: size - 1, to: index);
-		}
-		
+		AddLast(item);
+		Move(from: size - 1, to: index);
 	}
 
 	public T PeekFirst()
@@ -301,7 +292,8 @@ public class Deque<T> : IDeque<T>
 		}
 		if (res)
 		{
-			RemoveAt(i);
+			Move(from: i, to: size - 1);
+			PopLast();
 		}
 		return res;
 	}
@@ -342,16 +334,8 @@ public class Deque<T> : IDeque<T>
 			throw new IndexOutOfRangeException();
 		}
 
-		if (index < size / 2)
-		{
-			Move(from: index, to: 0);
-			PopFirst();
-		}
-		else
-		{
-			Move(from: index, to: size - 1);
-			PopLast();
-		}
+		Move(from: index, to: size - 1);
+		PopLast();
 	}
 
 	public void Reverse()
