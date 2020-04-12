@@ -6,7 +6,6 @@ using System.Text;
 class ReversedView<T> : IList<T>
 {
 	readonly Deque<T> deque;
-	private int version = 0;
 	public ReversedView(Deque<T> deque)
 	{
 		this.deque = deque;
@@ -20,13 +19,11 @@ class ReversedView<T> : IList<T>
 	public void Add(T item)
 	{
 		deque.AddFirst(item);
-		version++;
 	}
 
 	public void Clear()
 	{
 		deque.Clear();
-		version++;
 	}
 
 	public bool Contains(T item)
@@ -107,42 +104,17 @@ class ReversedView<T> : IList<T>
 		{
 			throw new IndexOutOfRangeException();
 		}
-		deque.AddFirst(item);
-		deque.Move(from: 0, to: deque.Count - 1 - index);
-		version++;
+		deque.Insert(deque.Count - 1 - index, item);
 	}
 
 	public bool Remove(T item)
 	{
-		bool res = false;
-		int i;
-		for ( i = deque.Count; i >= 0 ; i--)
-		{
-			if (this[i].Equals(item))
-			{
-				res = true;
-				break;
-			}
-		}
-		if (res)
-		{
-			deque.Move(from: i, to: 0);
-			deque.PopFirst();
-			version++;
-		}
-		return res;
+		return deque.Remove(item);
 	}
 
 	public void RemoveAt(int index)
 	{
-		if (!CheckIndex(deque.Count - 1 - index))
-		{
-			throw new IndexOutOfRangeException();
-		}
-
-		deque.Move(from: deque.Count - 1 - index, to: 0);
-		deque.PopFirst();
-		version++;
+		deque.RemoveAt(deque.Count - 1 - index);
 	}
 
 	private bool CheckIndex(int index)
