@@ -19,14 +19,14 @@ public class Deque<T> : IDeque<T>
 				int firstSize = map[frontBlock].currentSize;
 				if (index < firstSize)
 				{
-					return map[frontBlock].arr[ map[frontBlock].start + index];
+					return map[frontBlock][index];
 				}
 				else
 				{
 					index = index - firstSize;
 					int outsideIndex = index / Data<T>.size;
 					int insideIndex = index % Data<T>.size;
-					return map[frontBlock + 1 + outsideIndex].arr[insideIndex];
+					return map[frontBlock + 1 + outsideIndex][insideIndex];
 				}
 			}
 		set {
@@ -83,7 +83,7 @@ public class Deque<T> : IDeque<T>
 	{
 		if (map[frontBlock].start == 0)
 		{
-			if (frontBlock == 0)
+			while (frontBlock == 0)
 			{
 				MakeLarger();
 			}
@@ -101,7 +101,7 @@ public class Deque<T> : IDeque<T>
 	{
 		if (map[endBlock].end == Data<T>.size - 1)
 		{
-			if (endBlock == map.Length - 1)
+			while (endBlock == map.Length - 1)
 			{
 				MakeLarger();
 			}
@@ -119,8 +119,8 @@ public class Deque<T> : IDeque<T>
 	{
 		Data<T>[] newMap = new Data<T>[map.Length * 2];
 		Array.Copy(map, 0, newMap, map.Length / 2, map.Length);
-		frontBlock = frontBlock + map.Length / 2;
-		endBlock = endBlock + map.Length / 2;
+		this.frontBlock = frontBlock + map.Length / 2;
+		this.endBlock = endBlock + map.Length / 2;
 		map = newMap;
 	}
 

@@ -5,7 +5,7 @@ using System.Text;
 internal class Data<T>
 {
     public static readonly int size = 64;
-    public bool IsValid = true;
+    public bool IsValid = false;
     public int currentSize { 
         get {
             if (start == -1 || end == -1)
@@ -45,7 +45,7 @@ internal class Data<T>
                 this.start = size / 2;
             }
         }
-
+        IsValid = true;
         this.end = start;
         arr[this.start] = item;
     }
@@ -54,19 +54,20 @@ internal class Data<T>
     {
         if (!inversed)
         {
-            return arr[index];
+            return arr[start + index];
         }
         else
         {
-            return arr[currentSize - 1 - index];
+            return arr[end - index];
         }
     }
 
     public T this[int index] {  get {
-            if (index < 0 || index > end - start + 1)
+            if (index < 0 || start + index > end)
             {
                 throw new IndexOutOfRangeException();
             }
+            // CONTINUE HERE
             return arr[start + index];
         } }
 

@@ -18,7 +18,14 @@ class ReversedView<T> : IList<T>
 
 	public void Add(T item)
 	{
-		deque.AddFirst(item);
+		if (deque.Count == 0)
+		{
+			deque.Add(item);
+		}
+		else
+		{
+			deque.AddFirst(item);
+		}
 	}
 
 	public void Clear()
@@ -111,7 +118,7 @@ class ReversedView<T> : IList<T>
 		}
 		else
 		{
-			deque.AddFirst(item);
+			deque.Insert(0, item);
 		}
 		
 	}
