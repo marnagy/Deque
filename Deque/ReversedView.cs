@@ -95,8 +95,16 @@ class ReversedView<T> : IList<T>
 		{
 			throw new IndexOutOfRangeException();
 		}
-		deque.AddFirst(item);
-		deque.Move(from: 0, to: deque.Count - 1 - index);
+		if (index < deque.Count / 2)
+		{
+			deque.AddFirst(item);
+			deque.Move(from: 0, to: deque.Count - 1 - index);
+		}
+		else
+		{
+			deque.AddLast(item);
+			deque.Move(from: deque.Count - 1, to: deque.Count - 1 - index);
+		}
 		version++;
 	}
 
@@ -114,8 +122,16 @@ class ReversedView<T> : IList<T>
 		}
 		if (res)
 		{
-			deque.Move(from: i, to: 0);
-			deque.PopFirst();
+			if (i < deque.Count / 2)
+			{
+				deque.Move(from: i, to: 0);
+				deque.PopFirst();
+			}
+			else
+			{
+				deque.Move(from: i, to: deque.Count - 1);
+				deque.PopLast();
+			}
 			version++;
 		}
 		return res;
@@ -127,9 +143,17 @@ class ReversedView<T> : IList<T>
 		{
 			throw new IndexOutOfRangeException();
 		}
+		int actualIndex = deque.Count - 1 - index;
 
-		deque.Move(from: deque.Count - 1 - index, to: 0);
-		deque.PopFirst();
+		if (actualIndex < deque.Count / 2){
+			deque.Move(from: actualIndex, to: 0);
+			deque.PopFirst();
+		}
+		else
+		{
+			deque.Move(from: actualIndex, to: deque.Count - 1);
+			deque.PopLast();
+		}
 		version++;
 	}
 
