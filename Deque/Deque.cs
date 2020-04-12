@@ -37,7 +37,7 @@ public class Deque<T> : IDeque<T>
 				int firstSize = map[frontBlock].currentSize;
 				if (index < firstSize)
 				{
-					map[frontBlock].arr[ map[frontBlock].start + index] = value;
+					map[frontBlock][index] = value;
 				}
 				else
 				{
@@ -137,9 +137,19 @@ public class Deque<T> : IDeque<T>
 	{
 		foreach (T thing in this)
 		{
-			if ( thing.Equals(item) )
+			if (item == null)
 			{
-				return true;
+				if (thing == null)
+				{
+					return true;
+				}
+			}
+			else
+			{
+				if ( item.Equals(thing) )
+				{
+					return true;
+				}
 			}
 		}
 		return false;
@@ -214,9 +224,19 @@ public class Deque<T> : IDeque<T>
 		Deque<T> list = this;
 		for (int i = 0; i < list.Count; i++)
 		{
-			if ( list[i].Equals(item) )
+			if (item == null)
 			{
-				return i;
+				if ( list[i] == null )
+				{
+					return i;
+				}
+			}
+			else
+			{
+				if ( item.Equals(list[i]) )
+				{
+					return i;
+				}
 			}
 		}
 		return -1;
@@ -291,10 +311,21 @@ public class Deque<T> : IDeque<T>
 		int i;
 		for ( i = 0; i < this.size; i++)
 		{
-			if (this[i].Equals(item))
+			if (item == null)
 			{
-				res = true;
-				break;
+				if (this[i] == null)
+				{
+					res = true;
+					break;
+				}
+			}
+			else
+			{
+				if (this[i].Equals(item))
+				{
+					res = true;
+					break;
+				}
 			}
 		}
 		if (res)

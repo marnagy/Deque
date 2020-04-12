@@ -97,12 +97,24 @@ class ReversedView<T> : IList<T>
 
 	public int IndexOf(T item)
 	{
-		int res = deque.IndexOf(item);
-		if (res >= 0)
+		for (int i = deque.Count - 1; i >= 0; i--)
 		{
-			res = deque.Count - 1 - res;
+			if (item == null)
+			{
+				if ( deque[i] == null )
+				{
+					return deque.Count - 1 - i;
+				}
+			}
+			else
+			{
+				if ( item.Equals(deque[i]) )
+				{
+					return deque.Count - 1 - i;
+				}
+			}
 		}
-		return res;
+		return -1;
 	}
 
 	public void Insert(int index, T item)
@@ -129,10 +141,21 @@ class ReversedView<T> : IList<T>
 		int i;
 		for (i = deque.Count - 1; i >= 0; i--)
 		{
-			if (deque[i].Equals(item))
+			if (item == null)
 			{
-				res = true;
-				break;
+				if (deque[i] == null)
+				{
+					res = true;
+					break;
+				}
+			}
+			else
+			{
+				if (item.Equals(deque[i]))
+				{
+					res = true;
+					break;
+				}
 			}
 		}
 		if (res)

@@ -67,9 +67,16 @@ internal class Data<T>
             {
                 throw new IndexOutOfRangeException();
             }
-            // CONTINUE HERE
             return arr[start + index];
-        } }
+        } 
+        set {
+            if (index < 0 || start + index > end)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            // CONTINUE HERE
+            arr[start + index] = value;
+            } }
 
     public void Add(T data, bool inverted)
     {
