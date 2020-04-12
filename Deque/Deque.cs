@@ -252,9 +252,8 @@ public class Deque<T> : IDeque<T>
 
 	public T PopFirst()
 	{
-		T item;
 		int innerIndex = map[frontBlock].start;
-		item = map[frontBlock].arr[innerIndex];
+		T item = map[frontBlock].arr[innerIndex];
 		if (innerIndex == Data<T>.size - 1)
 		{
 			frontBlock++;
@@ -270,9 +269,8 @@ public class Deque<T> : IDeque<T>
 
 	public T PopLast()
 	{
-		T item;
 		int innerIndex = map[endBlock].end;
-		item = map[endBlock].arr[innerIndex];
+		T item = map[endBlock].arr[innerIndex];
 		if (innerIndex == 0)
 		{
 			endBlock--;
