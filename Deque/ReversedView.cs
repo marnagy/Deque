@@ -5,9 +5,9 @@ using System.Text;
 
 class ReversedView<T> : IList<T>
 {
-	readonly IDeque<T> deque;
+	readonly Deque<T> deque;
 	private int version = 0;
-	public ReversedView(IDeque<T> deque)
+	public ReversedView(Deque<T> deque)
 	{
 		this.deque = deque;
 	}
@@ -46,14 +46,22 @@ class ReversedView<T> : IList<T>
 
 	private class ReversedEnumerator<T> : IEnumerator<T>
 	{
-		readonly IDeque<T> deque;
+		readonly Deque<T> deque;
 		int index;
-		internal ReversedEnumerator(IDeque<T> deque)
+		int version;
+		internal ReversedEnumerator(Deque<T> deque)
 		{
 			this.deque = deque;
 			this.index = deque.Count;
+			this.version = deque.version;
 		}
-		public T Current => deque[index];
+		public T Current { get {
+			if (this.version != deque.version)
+			{
+				throw new InvalidOperationException();
+			}
+			return deque[index];
+		} }
 
 		object IEnumerator.Current => throw new NotImplementedException();
 
@@ -64,6 +72,10 @@ class ReversedView<T> : IList<T>
 
 		public bool MoveNext()
 		{
+			if (this.version != deque.version)
+			{
+				throw new InvalidOperationException();
+			}
 			if (index > 0)
 			{
 				index--;

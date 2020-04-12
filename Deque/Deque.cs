@@ -8,7 +8,7 @@ public class Deque<T> : IDeque<T>
 	int frontBlock = -1, endBlock = -1;
 	Data<T>[] map = new Data<T>[1];
 	private int size = 0;
-	private int version = 0;
+	public int version { get; private set; } = 0;
 
 	public T this[int index] { 
 		get {
@@ -176,7 +176,7 @@ public class Deque<T> : IDeque<T>
 			get {
 				if (deque.version != this.version)
 				{
-					throw new InvalidOperationException("Collection has been modified.");
+					throw new InvalidOperationException();
 				}
 				return deque[currentIndex];
 				} 
@@ -193,7 +193,7 @@ public class Deque<T> : IDeque<T>
 		{
 			if (deque.version != this.version)
 			{
-				throw new InvalidOperationException("Collection has been modified.");
+				throw new InvalidOperationException();
 			}
 			if (currentIndex < deque.size - 1)
 			{
@@ -247,7 +247,7 @@ public class Deque<T> : IDeque<T>
 		T item;
 		int innerIndex = map[frontBlock].start;
 		item = map[frontBlock].arr[innerIndex];
-		if (innerIndex == Data<T>.size)
+		if (innerIndex == Data<T>.size - 1)
 		{
 			frontBlock++;
 		}
