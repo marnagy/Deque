@@ -7,8 +7,14 @@ public class Deque<T> : IDeque<T>
 {
 	int frontBlock = -1, endBlock = -1;
 	Data<T>[] map = new Data<T>[1];
+	private static readonly EqualityComparer<T> eqComp;
 	private int size = 0;
 	public int version { get; private set; } = 0;
+
+	static Deque()
+	{
+		eqComp = EqualityComparer<T>.Default;
+	}
 
 	public T this[int index] { 
 		get {
@@ -137,19 +143,9 @@ public class Deque<T> : IDeque<T>
 	{
 		foreach (T thing in this)
 		{
-			if (item == null)
+			if (eqComp.Equals(thing, item))
 			{
-				if (thing == null)
-				{
-					return true;
-				}
-			}
-			else
-			{
-				if ( item.Equals(thing) )
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 		return false;
@@ -181,19 +177,9 @@ public class Deque<T> : IDeque<T>
 		Deque<T> list = this;
 		for (int i = 0; i < list.Count; i++)
 		{
-			if (item == null)
+			if (eqComp.Equals(list[i], item))
 			{
-				if ( list[i] == null )
-				{
-					return i;
-				}
-			}
-			else
-			{
-				if ( item.Equals(list[i]) )
-				{
-					return i;
-				}
+				return i;
 			}
 		}
 		return -1;
@@ -268,21 +254,10 @@ public class Deque<T> : IDeque<T>
 		int i;
 		for ( i = 0; i < this.size; i++)
 		{
-			if (item == null)
+			if (eqComp.Equals(this[i], item))
 			{
-				if (this[i] == null)
-				{
-					res = true;
-					break;
-				}
-			}
-			else
-			{
-				if (this[i].Equals(item))
-				{
-					res = true;
-					break;
-				}
+				res = true;
+				break;
 			}
 		}
 		if (res)
